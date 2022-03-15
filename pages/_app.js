@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import '../styles/globals.css';
+import '../styles/gameOver.css';
 
 function MyApp({ Component, pageProps }) {
 	return (
