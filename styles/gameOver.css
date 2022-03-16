@@ -1,0 +1,70 @@
+.over_cover {
+	position: fixed;
+	width: 100%;
+	height: 100vh;
+	inset: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	transition: all 500ms;
+}
+
+.over_cover.over_show {
+	opacity: 1 !important;
+}
+
+.over_cover::before {
+	content: '';
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background: black;
+	opacity: 0.3;
+}
+
+.over_main {
+	transition: all 500ms;
+	position: relative;
+	padding: 2vmin 3vmin;
+	/* background: white; */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	z-index: 2;
+	border-radius: 14px;
+}
+
+.over_main > div {
+	margin: 1vmin 0;
+}
+
+.over_icon > svg {
+	height: 40vmin;
+	width: 40vmin;
+}
+
+.over_main > button {
+	background: rgb(0, 153, 255);
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	margin: 1vmin 0;
+	border: none;
+	outline: none;
+	padding: 1.3vmin 2vmin;
+	font-size: 4vmin;
+	border-radius: 15px;
+	cursor: pointer;
+}
+
+.over_cover.over_show .over_main {
+	animation: pop 600ms ease-in-out;
+}
+
+@keyframes pop {
+	0% {
+		transform: scale(1.5);
+	}
+}

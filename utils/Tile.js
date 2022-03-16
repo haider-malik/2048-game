@@ -23,7 +23,7 @@ export default class Tile {
 		this.#tileElement.style.setProperty('--bg-lightness', `${bgLightness}%`);
 		this.#tileElement.style.setProperty(
 			'--text-lightness',
-			`${bgLightness < 50 ? 90 : 10}%`
+			`${bgLightness < 60 ? 90 : 10}%`
 		);
 	}
 
@@ -38,6 +38,17 @@ export default class Tile {
 
 	remove() {
 		this.#tileElement.remove();
+	}
+
+	animate() {
+		return new Promise((resolve) => {
+			this.#tileElement.classList.add('expand');
+			resolve();
+		});
+	}
+
+	unanimate() {
+		this.#tileElement.classList.remove('expand');
 	}
 
 	waitForTransition() {

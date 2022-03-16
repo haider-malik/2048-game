@@ -42,10 +42,10 @@ body {
 	top: calc(var(--y) * (var(--cell-size) + var(--cell-gap)) + var(--cell-gap));
 	left: calc(var(--x) * (var(--cell-size) + var(--cell-gap)) + var(--cell-gap));
 	font-weight: bold;
-	background-color: hsl(120, 50%, var(--bg-lightness));
-	color: hsl(120, 25%, var(--text-lightness));
+	background-color: hsl(150, 50%, var(--bg-lightness));
+	color: hsl(170, 25%, var(--text-lightness));
 	animation: show 200ms ease-in-out;
-	transition: 100ms ease-in-out;
+	transition: 150ms ease-in-out;
 }
 
 @keyframes show {
@@ -53,4 +53,8 @@ body {
 		opacity: 0.5;
 		transform: scale(0);
 	}
+}
+
+.expand {
+	transform: scale(1.2);
 }

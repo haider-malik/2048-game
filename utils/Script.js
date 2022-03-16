@@ -1,16 +1,9 @@
-import Grid from './Grid';
 import Tile from './Tile';
 
+let xdown = null;
+let ydown = null;
+
 export function setUpInput(grid, board) {
-	window.addEventListener(
-		'keydown',
-		(e) => {
-			handleInput(e, grid, board);
-		},
-		{ once: true }
-	);
-}
-export const handleInput = async (e, grid, board) => {
 	if (
 		!canMoveUp(grid) &&
 		!canMoveDown(grid) &&
@@ -21,6 +14,34 @@ export const handleInput = async (e, grid, board) => {
 		goDiv.classList.add('over_show');
 		return;
 	}
+
+	// on touch event listener
+	window.addEventListener(
+		'touchstart',
+		(e) => {
+			handleTouchStart(e, grid, board);
+		},
+		false
+	);
+	window.addEventListener(
+		'touchmove',
+		(e) => {
+			handleTouchMove(e, grid, board);
+		},
+		false
+	);
+
+	// on keyboard keypress event listener
+	window.addEventListener(
+		'keydown',
+		(e) => {
+			handleInput(e, grid, board);
+		},
+		{ once: true }
+	);
+}
+export const handleInput = async (e, grid, board) => {
+	if (!e.key) return;
 	switch (e.key) {
 		case 'ArrowUp':
 			if (!canMoveUp(grid)) {
@@ -65,10 +86,72 @@ export const handleInput = async (e, grid, board) => {
 	let active = grid.activeCellsObj;
 	sessionStorage.setItem('activeCells', JSON.stringify(active));
 
+	if (
+		!canMoveUp(grid) &&
+		!canMoveDown(grid) &&
+		!canMoveLeft(grid) &&
+		!canMoveRight(grid)
+	) {
+		const goDiv = document.getElementById('game-over');
+		goDiv.classList.add('over_show');
+		return;
+	}
+
 	// Setting Up Input again after all done
 	setUpInput(grid, board);
 };
 
+function getTouches(evt) {
+	return (
+		evt.touches || // browser API
+		evt.originalEvent.touches
+	); // jQuery
+}
+
+function handleTouchStart(evt) {
+	const firstTouch = getTouches(evt)[0];
+	xdown = firstTouch.clientX;
+	ydown = firstTouch.clientY;
+}
+
+async function handleTouchMove(evt, grid, board) {
+	if (!xdown || !ydown) {
+		return;
+	}
+
+	var xUp = evt.touches[0].clientX;
+	var yUp = evt.touches[0].clientY;
+
+	var xDiff = xdown - xUp;
+	var yDiff = ydown - yUp;
+
+	if (Math.abs(xDiff) > Math.abs(yDiff)) {
+		/*most significant*/
+		if (xDiff > 0) {
+			evt.key = 'ArrowLeft';
+			/* right swipe */
+		} else {
+			evt.key = 'ArrowRight';
+			/* left swipe */
+		}
+	} else {
+		if (yDiff > 0) {
+			/* down swipe */
+			evt.key = 'ArrowUp';
+		} else {
+			evt.key = 'ArrowDown';
+			/* up swipe */
+		}
+	}
+
+	await handleInput(evt, grid, board);
+
+	/* reset values */
+	xdown = null;
+	ydown = null;
+}
+
+// functions related to alter the grid
 function moveUp(grd) {
 	return slideTiles(grd.cellsByColumn);
 }
