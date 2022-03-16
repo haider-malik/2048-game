@@ -17,6 +17,18 @@ export default class Grid {
 		});
 	}
 
+	get maxAndScore() {
+		let max = 2;
+		let score = 0;
+		this.#cells.forEach((cell) => {
+			if (cell.tile) {
+				max = Math.max(cell.tile.value, max);
+				score += cell.tile.value;
+			}
+		});
+		return { score: score, max: max };
+	}
+
 	get activeCellsObj() {
 		const activeCells = this.#cells.filter((cell) => cell.tile != null);
 		const active = {};

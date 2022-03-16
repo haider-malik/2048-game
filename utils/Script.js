@@ -3,13 +3,19 @@ import Tile from './Tile';
 let xdown = null;
 let ydown = null;
 
-export function setUpInput(grid, board) {
+export function setUpInput(grid, board, setScores) {
 	if (
 		!canMoveUp(grid) &&
 		!canMoveDown(grid) &&
 		!canMoveLeft(grid) &&
 		!canMoveRight(grid)
 	) {
+		const goDiv = document.getElementById('game-over');
+		goDiv.classList.add('over_show');
+		return;
+	}
+
+	if (grid.maxAndScore.max === 2048) {
 		const goDiv = document.getElementById('game-over');
 		goDiv.classList.add('over_show');
 		return;
@@ -26,7 +32,7 @@ export function setUpInput(grid, board) {
 	window.addEventListener(
 		'touchmove',
 		(e) => {
-			handleTouchMove(e, grid, board);
+			handleTouchMove(e, grid, board, setScores);
 		},
 		false
 	);
@@ -35,44 +41,44 @@ export function setUpInput(grid, board) {
 	window.addEventListener(
 		'keydown',
 		(e) => {
-			handleInput(e, grid, board);
+			handleInput(e, grid, board, setScores);
 		},
 		{ once: true }
 	);
 }
-export const handleInput = async (e, grid, board) => {
+export const handleInput = async (e, grid, board, setScores) => {
 	if (!e.key) return;
 	switch (e.key) {
 		case 'ArrowUp':
 			if (!canMoveUp(grid)) {
-				setUpInput(grid, board);
+				setUpInput(grid, board, setScores);
 				return;
 			}
 			await moveUp(grid);
 			break;
 		case 'ArrowDown':
 			if (!canMoveDown(grid)) {
-				setUpInput(grid, board);
+				setUpInput(grid, board, setScores);
 				return;
 			}
 			await moveDown(grid);
 			break;
 		case 'ArrowLeft':
 			if (!canMoveLeft(grid)) {
-				setUpInput(grid, board);
+				setUpInput(grid, board, setScores);
 				return;
 			}
 			await moveLeft(grid);
 			break;
 		case 'ArrowRight':
 			if (!canMoveRight(grid)) {
-				setUpInput(grid, board);
+				setUpInput(grid, board, setScores);
 				return;
 			}
 			await moveRight(grid);
 			break;
 		default:
-			setUpInput(grid, board);
+			setUpInput(grid, board, setScores);
 			return;
 	}
 	// Other code here - merging tiles, etc.
@@ -85,6 +91,7 @@ export const handleInput = async (e, grid, board) => {
 
 	let active = grid.activeCellsObj;
 	sessionStorage.setItem('activeCells', JSON.stringify(active));
+	setScores(grid.maxAndScore);
 
 	if (
 		!canMoveUp(grid) &&
@@ -96,9 +103,13 @@ export const handleInput = async (e, grid, board) => {
 		goDiv.classList.add('over_show');
 		return;
 	}
-
+	if (grid.maxAndScore.max === 2048) {
+		const goDiv = document.getElementById('game-over');
+		goDiv.classList.add('over_show');
+		return;
+	}
 	// Setting Up Input again after all done
-	setUpInput(grid, board);
+	setUpInput(grid, board, setScores);
 };
 
 function getTouches(evt) {
@@ -114,7 +125,7 @@ function handleTouchStart(evt) {
 	ydown = firstTouch.clientY;
 }
 
-async function handleTouchMove(evt, grid, board) {
+async function handleTouchMove(evt, grid, board, setScores) {
 	if (!xdown || !ydown) {
 		return;
 	}
@@ -144,7 +155,7 @@ async function handleTouchMove(evt, grid, board) {
 		}
 	}
 
-	await handleInput(evt, grid, board);
+	await handleInput(evt, grid, board, setScores);
 
 	/* reset values */
 	xdown = null;

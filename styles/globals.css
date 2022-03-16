@@ -44,11 +44,11 @@ body {
 	font-weight: bold;
 	background-color: hsl(150, 50%, var(--bg-lightness));
 	color: hsl(170, 25%, var(--text-lightness));
-	animation: show 200ms ease-in-out;
-	transition: 150ms ease-in-out;
+	animation: popup 200ms ease-in-out;
+	transition: 130ms ease-in-out;
 }
 
-@keyframes show {
+@keyframes popup {
 	0% {
 		opacity: 0.5;
 		transform: scale(0);
@@ -57,4 +57,31 @@ body {
 
 .expand {
 	transform: scale(1.2);
+}
+
+.statsbar {
+	position: relative;
+	width: calc((4vmin * 19vmin + 2vmin));
+	display: flex;
+	justify-content: space-between;
+	font-size: 3.3vmin;
+	font-weight: bold;
+	color: rgb(224, 224, 224);
+	margin-bottom: 1vmin;
+}
+
+.statsbar::before {
+	content: '2048';
+	position: absolute;
+	width: 100%;
+	inset: 0;
+	text-align: center;
+	font-size: 7vmin;
+	font-weight: bold;
+	transform: translateY(-3.3vmin);
+}
+
+.score,
+.max-score {
+	color: #50c878;
 }
