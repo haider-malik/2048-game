@@ -8,10 +8,12 @@
 	align-items: center;
 	opacity: 0;
 	transition: all 500ms;
+	z-index: 1;
 }
 
 .over_cover.over_show {
 	opacity: 1 !important;
+	z-index: 3;
 }
 
 .over_cover::before {

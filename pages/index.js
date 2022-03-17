@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import GameOver from '../components/GameOver';
+import Info from '../components/Info';
+import InfoIcon from '../components/InfoIcon';
 import Grid from '../utils/Grid';
 import { setUpInput } from '../utils/Script';
 import Tile from '../utils/Tile';
@@ -34,10 +36,18 @@ const Home = () => {
 		sessionStorage.setItem('activeCells', 'null');
 	};
 
+	const infoClicked = () => {
+		const info = document.getElementById('comp_info');
+		info.classList.add('show');
+	};
+
 	return (
 		<>
 			<div className="statsbar">
 				<span>
+					<span className="info_icon" onClick={infoClicked}>
+						<InfoIcon />
+					</span>
 					Max Tile{` : `}
 					<span className="max-score">{scores.max}</span>
 				</span>
@@ -46,10 +56,24 @@ const Home = () => {
 				</span>
 			</div>
 			<div id="game-board" name="gameBoard"></div>
+			<div id="author-info">
+				<hr className="hrule" />
+				<p>
+					Developed by
+					<a
+						href="https://haidermalik.netlify.app/"
+						target="_blank"
+						rel="noreferrer"
+					>
+						Haider Malik
+					</a>
+				</p>
+			</div>
 			<GameOver
 				resetGrid={resetGrid}
 				status={scores.max === 2048 ? 'win' : 'loose'}
 			></GameOver>
+			<Info />
 		</>
 	);
 };

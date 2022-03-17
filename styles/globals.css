@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap');
 *,
 *::before,
 *::after {
@@ -69,8 +70,28 @@ body {
 	color: rgb(224, 224, 224);
 	margin-bottom: 1vmin;
 }
+.statsbar span {
+	font-family: 'Fredoka', sans-serif;
+}
+
+.statsbar .info_icon {
+	position: relative;
+	cursor: pointer;
+	z-index: 2;
+}
+.statsbar svg {
+	height: 3vmin;
+	width: 3vmin;
+	margin-right: 1.5vmin;
+	transform: translateY(0.2vmin);
+}
+
+.statsbar svg path {
+	fill: white;
+}
 
 .statsbar::before {
+	font-family: 'Fredoka', sans-serif;
 	content: '2048';
 	position: absolute;
 	width: 100%;
@@ -78,10 +99,40 @@ body {
 	text-align: center;
 	font-size: 7vmin;
 	font-weight: bold;
-	transform: translateY(-3.3vmin);
+	transform: translate(2vmin, -3.3vmin);
 }
 
 .score,
 .max-score {
+	font-family: 'Fredoka', sans-serif;
 	color: #50c878;
+}
+
+#author-info {
+	width: calc((4vmin * 19vmin + 2vmin));
+}
+
+.hrule {
+	margin: 2vmin 0 0 0;
+	border: none;
+	outline: none;
+	height: 1px;
+	background-color: white;
+}
+
+#author-info p {
+	font-family: 'Fredoka', sans-serif;
+	margin: 0;
+	font-size: 5vmin;
+	color: whitesmoke;
+	margin-top: 1vmin;
+}
+
+#author-info p a {
+	font-family: 'Fredoka', sans-serif;
+	position: relative;
+	float: right;
+	z-index: 2;
+	color: #50c878;
+	text-decoration: none;
 }
